@@ -1,0 +1,36 @@
+name: 👮‍♂️ Build Product
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  publish:
+    name: Build Product
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Gen npmrc
+        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Local build
+        run: pnpm build
+
+      - name: Npm Publish
+        run: pnpm publish

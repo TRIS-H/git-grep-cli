@@ -1,0 +1,61 @@
+{
+	"name": "git-grep-cli",
+	"version": "0.1.0",
+	"description": "A simple command line tool to search for commit-message or file-content in a git repository to retrieve the corresponding git hash.",
+	"main": "./dist/index.mjs",
+	"exports": {
+		".": {
+			"default": "./dist/index.mjs"
+		}
+	},
+	"type": "module",
+	"bin": {
+		"gg": "bin/gg.mjs"
+	},
+	"engines": {
+		"node": ">=v14.0.0"
+	},
+	"scripts": {
+		"dev": "rollup -c rollup.config.js -w --watch lib",
+		"build": "rollup -c rollup.config.js",
+		"dev-ts": "rollup -c rollup.config.ts --configPlugin typescript -w --watch lib",
+		"build-ts": "rollup -c rollup.config.ts --configPlugin typescript"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TRIS-H/git-grep-cli.git"
+	},
+	"keywords": [
+		"git",
+		"git grep",
+		"git search",
+		"git find",
+		"git reset"
+	],
+	"author": "TRIS-H",
+	"license": "MIT",
+	"files": [
+		"dist",
+		"bin"
+	],
+	"devDependencies": {
+		"@rollup/plugin-babel": "^6.0.4",
+		"@rollup/plugin-commonjs": "^28.0.2",
+		"@rollup/plugin-node-resolve": "^15.3.0",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@types/yargs": "^17.0.33",
+		"rollup": "^4.28.1",
+		"rollup-plugin-delete": "^2.1.0",
+		"rollup-plugin-generate-html-template": "^1.7.0",
+		"tslib": "^2.8.1",
+		"typescript": "^5.7.2"
+	},
+	"dependencies": {
+		"axios": "^1.7.9",
+		"yargs": "^17.7.2"
+	},
+	"homepage": "https://github.com/TRIS-H/git-grep-cli.git",
+	"bugs": {
+		"url": "https://github.com/TRIS-H/git-grep-cli/issues"
+	}
+}

@@ -1,6 +1,6 @@
 {
 	"name": "git-grep-cli",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "A simple command line tool to search for commit-message or file-content in a git repository to retrieve the corresponding git hash.",
 	"main": "./dist/index.mjs",
 	"exports": {
@@ -10,16 +10,15 @@
 	},
 	"type": "module",
 	"bin": {
-		"gg": "bin/gg.mjs"
+		"ggc": "bin/ggc.mjs"
 	},
 	"engines": {
 		"node": ">=v14.0.0"
 	},
 	"scripts": {
-		"dev": "rollup -c rollup.config.js -w --watch lib",
-		"build": "rollup -c rollup.config.js",
-		"dev-ts": "rollup -c rollup.config.ts --configPlugin typescript -w --watch lib",
-		"build-ts": "rollup -c rollup.config.ts --configPlugin typescript"
+		"dev": "rollup -c rollup.config.ts --configPlugin typescript -w",
+		"build": "rollup -c rollup.config.ts --configPlugin typescript",
+		"lint": "eslint --fix lib"
 	},
 	"repository": {
 		"type": "git",
@@ -30,7 +29,9 @@
 		"git grep",
 		"git search",
 		"git find",
-		"git reset"
+		"git reset",
+		"git lost",
+		"git lost-found"
 	],
 	"author": "TRIS-H",
 	"license": "MIT",
@@ -39,16 +40,24 @@
 		"bin"
 	],
 	"devDependencies": {
+		"@commitlint/cli": "^19.6.1",
+		"@commitlint/config-conventional": "^19.6.0",
+		"@eslint/js": "^9.17.0",
 		"@rollup/plugin-babel": "^6.0.4",
 		"@rollup/plugin-commonjs": "^28.0.2",
 		"@rollup/plugin-node-resolve": "^15.3.0",
 		"@rollup/plugin-typescript": "^12.1.2",
 		"@types/yargs": "^17.0.33",
+		"eslint": "^9.17.0",
+		"globals": "^15.13.0",
+		"lint-staged": "^15.2.11",
 		"rollup": "^4.28.1",
 		"rollup-plugin-delete": "^2.1.0",
 		"rollup-plugin-generate-html-template": "^1.7.0",
+		"simple-git-hooks": "^2.11.1",
 		"tslib": "^2.8.1",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.18.1"
 	},
 	"dependencies": {
 		"axios": "^1.7.9",
@@ -57,5 +66,12 @@
 	"homepage": "https://github.com/TRIS-H/git-grep-cli.git",
 	"bugs": {
 		"url": "https://github.com/TRIS-H/git-grep-cli/issues"
+	},
+	"simple-git-hooks": {
+		"pre-commit": "pnpm lint-staged",
+		"commit-msg": "pnpm commitlint --edit ${1}"
+	},
+	"lint-staged": {
+		"*": "eslint lib --fix"
 	}
 }

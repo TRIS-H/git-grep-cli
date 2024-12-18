@@ -6,8 +6,11 @@ export enum SearchType {
 
 export enum HashType {
     Blob = 'blob',
-    Commit = 'commit'
+    Commit = 'commit',
+    Tree = 'tree'
 }
 
 /** 管道并发数 */
 export const PIPE_CONCURRENCY = 50;
+
+export const isWindows = process.platform === 'win32';

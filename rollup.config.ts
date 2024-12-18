@@ -1,7 +1,6 @@
 import typescript from "@rollup/plugin-typescript";
 import del from "rollup-plugin-delete";
 import resolve from '@rollup/plugin-node-resolve';
-import linkGlobal from "./rollupPlugins/linkGlobal";
 
 import { RollupOptions } from "rollup";
 const rollupOptions: RollupOptions = {
@@ -23,7 +22,6 @@ const rollupOptions: RollupOptions = {
       declarationDir: "dist/types",
     }),
     del({ targets: "dist/*" }),
-    linkGlobal(),
   ],
 }
 

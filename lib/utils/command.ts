@@ -27,7 +27,7 @@ export async function spawnCommand(cmd: string, args: string[] = []): Promise<st
             console.log(`stderr: ${data}`);
             reject(data);
         })
-        child.on('close', (code) => {
+        child.on('close', () => {
             resolve(result);
         })
     });

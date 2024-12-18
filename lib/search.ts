@@ -1,7 +1,9 @@
 
 import { CommandPipeChain, execCommand, isAllType, isContentType, isMessageType } from './utils'
-import { SearchType, PIPE_CONCURRENCY, HashType } from './config';
+import { SearchType, PIPE_CONCURRENCY, HashType, isWindows } from './config';
 import { argv } from './argv';
+
+const GREP = isWindows ? 'Select-String' : 'grep';
 
 const { search, length, type: searchType } = argv as any as {
     search: string;
@@ -12,10 +14,8 @@ const { search, length, type: searchType } = argv as any as {
 
 const contentLength = Number.isNaN(length) ? 80 : length;
 
-const grepLostFoundType = `grep ${isMessageType(searchType) ? 'commit' : '-v tree'}`;
-
 async function handleGrep() {
-    console.time('run-exec')
+    console.time('exec')
     if (isAllType(searchType) || isMessageType(searchType)) {
         const messageMatch = (await grepMessage()).trim();
         console.log(`--commit-message--\n`, messageMatch);
@@ -26,14 +26,17 @@ async function handleGrep() {
     }
 
     await grepLostFound();
-    console.timeEnd('run-exec')
+    console.timeEnd('exec')
 }
 
 async function getLostFoundhashs() {
-    const allHashs = (await execCommand(`git fsck --lost-found | ${grepLostFoundType} | awk '{i=NF-1; print $i "," $NF}'`)).trim().split('\n').map(line => line.split(','))
+    const allHashs = (await execCommand(`git fsck --lost-found`)).trim().split('\n').map(line => line.split(/ +/g))
     const blobHashs: string[] = [];
     const commitHashs: string[] = [];
-    allHashs.forEach(([hashType, hash]) => (hashType === HashType.Blob ? blobHashs : commitHashs).push(hash))
+    allHashs.forEach(([_, hashType, hash]) => {
+        (hashType === HashType.Blob) && (blobHashs.push(hash));
+        (hashType === HashType.Commit) && (commitHashs.push(hash));
+    })
     return {
         blobHashs,
         commitHashs,
@@ -66,7 +69,7 @@ async function getHashMap(hashs: string[], hashType: HashType) {
     const showParametersMap = {
         [SearchType.All]: [],
         [SearchType.Message]: ['-s', '--format=%s'],
-        [SearchType.Content]: ['--pretty=format:""'],
+        [SearchType.Content]: [],
     }
 
     for (let i = 0; i * PIPE_CONCURRENCY < hashs.length; i++) {
@@ -74,7 +77,7 @@ async function getHashMap(hashs: string[], hashType: HashType) {
         await Promise.all(hashFragment.map(async hash => {
             const matchStr = await new CommandPipeChain()
                 .add('git', ['show', hash, ...showParametersMap[searchType]])
-                .add('grep', [search])
+                .add(GREP, [search])
                 .get()
             if (matchStr) {
                 hashMap[hash] = matchStr.slice(0, contentLength);
@@ -98,7 +101,7 @@ function grepMessage() {
 if (search) {
     handleGrep();
 } else {
-    console.log('请输入: gg -S <查找内容>')
+    console.error('请输入: ggc -s <查找内容>')
 }
 
 

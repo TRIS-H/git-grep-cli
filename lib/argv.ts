@@ -13,7 +13,7 @@ export const argv = yargs(hideBin(process.argv))
     .option('t', {
         choices: [SearchType.Content, SearchType.Message, SearchType.All],
         alias: 'type',
-        default: SearchType.Content,
+        default: SearchType.All,
         describe: '要匹配的查找类型，message匹配git的提交信息，content匹配文件的更改内容，all会同时查找两者',
         type: 'string',
     })
@@ -24,8 +24,10 @@ export const argv = yargs(hideBin(process.argv))
         type: 'number',
         'skipValidation': false
     })
-    .usage('Usage: gg -s <search-content> [-t <type>] [-l <length>]')
-    .example('gg -s "hello world" -t content -l 80', '将查找所有内容更改包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
+    .usage('Usage: ggc -s <search-content> [-t <type>] [-l <length>]')
+    .example('ggc -s "hello world"', '将查找所有内容更改或提交信息里包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
+    .example('ggc -s "hello world" -t message', '将查找所有提交信息包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
+    .example('ggc -s "hello world" -t content -l 50', '将查找所有内容更改包含‘hello world’的git-hash，每条对象最多返回50个字符长度的内容')
     .help('h')
     .alias('h', 'help')
     .epilog('copyright 2024')

@@ -11,6 +11,6 @@ export enum HashType {
 }
 
 /** 管道并发数 */
-export const PIPE_CONCURRENCY = 50;
+export const PIPE_CONCURRENCY = 40;
 
 export const isWindows = process.platform === 'win32';

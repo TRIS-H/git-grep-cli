@@ -1,15 +1,15 @@
 import { exec, spawn, ChildProcessWithoutNullStreams } from 'child_process';
 
 export async function execCommand(cmd: string): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.error(`exec error: ${error}`);
-                return reject(error);
+                return resolve('');
             }
             if (stderr) {
                 console.error(`exec stderr: ${stderr}`);
-                return reject(stderr);
+                return resolve('');
             }
             resolve(stdout.toString());
         })

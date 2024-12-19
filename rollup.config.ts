@@ -11,9 +11,8 @@ const rollupOptions: RollupOptions = {
       file: "dist/index.mjs",
     },
   ],
-  external: ["yargs"],
+  external: ["yargs", "yargs/helpers"],
   plugins: [
-    resolve(),
     typescript({
       checkJs: false,
       declaration: true,
@@ -21,6 +20,7 @@ const rollupOptions: RollupOptions = {
       exclude: ["rollup.config.ts"],
       declarationDir: "dist/types",
     }),
+    resolve(),
     del({ targets: "dist/*" }),
   ],
 }

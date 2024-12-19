@@ -7,6 +7,94 @@ A simple command line tool to search for commit-message or file-content in a git
 
 It is more convenient and powerful than the native API provided by git, and can help you find files better (including git's --lost-found objects).
 
+## "Regret Medicine" for git
+
+From another point of view, `git-grep-cli` provides stronger "regret medicine" for git, which can help you quickly find lost files (provided that the lost files have been added to the git staging area).
+
+<!-- 将下面所有中文翻译成英文 -->
+
+### Example: find a lost file
+
+You can follow these steps to execute it:
+
+```sh
+# create a file
+echo "hello world" > lost-file-1
+# add it to the staging area
+git add lost-file-1
+# undo the staging area
+git restore --staged lost-file-1
+# delete the file
+rm lost-file-1
+```
+
+Now, `lost-file-1` is lost, and you want to find it back. You can use `git-grep-cli` to search for it:
+
+```sh
+ggc -s "hello world" -t content
+```
+
+You will get the git-hash of `lost-file-1`, and then you can use `git show <hash>` to view the content of this file.
+
+### Example: find a lost git-commit record
+
+You can follow these steps to execute it:
+
+```sh
+# create a file
+echo "bye bye" > lost-file-2
+# add it to the staging area
+git add lost-file-2
+# commit it
+git commit -m "add lost-git-commit"
+# undo the commit
+git reset --hard HEAD~1
+```
+
+You can use `git-grep-cli` to search for it:
+
+```sh
+# find the lost git-commit record by file content
+ggc -s "bye bye" -t content
+# or
+# find the lost git-commit record by commit message
+ggc -s "lost-git-commit" -t message
+```
+
+## Usage
+
+```sh
+# 撤销git暂存区a文件到工作区
+git reset a
+# 还可以是这样的命令
+
+# 撤销git暂存区a文件到工作区
+git reset a
+# 还可以是这样的命令
+
+# 撤销git暂存区a文件到工作区
+git reset a
+# 还可以是这样的命令
+
+# 撤销git暂存区a文件到工作区
+git reset a
+
+# or
+echo "hello world" > lost-file-2
+git add lost-file
+git commit -m "add lost-file"
+git reset --hard HEAD~1
+ggc -s "lost-file" -t content
+
+# 撤销git暂存区a文件到工作区
+git reset a
+# 还可以是这样的命令
+
+
+```
+
+## Features
+
 ## Installing
 
 You need to install `git-grep-cli` globally.

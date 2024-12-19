@@ -1,9 +1,10 @@
 {
 	"name": "git-grep-cli",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "A simple command line tool to search for commit-message or file-content in a git repository to retrieve the corresponding git hash.",
 	"packageManager": "pnpm@9.11.0",
 	"main": "./dist/index.mjs",
+	"private": false,
 	"exports": {
 		".": {
 			"default": "./dist/index.mjs"
@@ -27,12 +28,16 @@
 	},
 	"keywords": [
 		"git",
-		"git grep",
-		"git search",
-		"git find",
-		"git reset",
-		"git lost",
-		"git lost-found"
+		"grep",
+		"command line",
+		"search",
+		"commit message",
+		"file content",
+		"git hash",
+		"git tools",
+		"cli",
+		"lost-found",
+		"git-grep"
 	],
 	"author": "TRIS-H",
 	"license": "MIT",

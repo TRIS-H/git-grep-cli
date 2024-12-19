@@ -46,12 +46,12 @@ echo "bye bye" > lost-file-2
 # add it to the staging area
 git add lost-file-2
 # commit it
-git commit -m "add lost-git-commit"
+git commit -m "feat: add lost-git-commit"
 # undo the commit
 git reset --hard HEAD~1
 ```
 
-You can use `git-grep-cli` to search for it:
+You can use `git-grep-cli` to find it back:
 
 ```sh
 # find the lost git-commit record by file content
@@ -60,40 +60,6 @@ ggc -s "bye bye" -t content
 # find the lost git-commit record by commit message
 ggc -s "lost-git-commit" -t message
 ```
-
-## Usage
-
-```sh
-# 撤销git暂存区a文件到工作区
-git reset a
-# 还可以是这样的命令
-
-# 撤销git暂存区a文件到工作区
-git reset a
-# 还可以是这样的命令
-
-# 撤销git暂存区a文件到工作区
-git reset a
-# 还可以是这样的命令
-
-# 撤销git暂存区a文件到工作区
-git reset a
-
-# or
-echo "hello world" > lost-file-2
-git add lost-file
-git commit -m "add lost-file"
-git reset --hard HEAD~1
-ggc -s "lost-file" -t content
-
-# 撤销git暂存区a文件到工作区
-git reset a
-# 还可以是这样的命令
-
-
-```
-
-## Features
 
 ## Installing
 

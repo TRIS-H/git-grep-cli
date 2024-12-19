@@ -12,6 +12,8 @@ const { search, length, type: searchType } = argv as any as {
     [x: string]: any;
 };
 
+
+
 const contentLength = Number.isNaN(length) ? 80 : length;
 
 async function handleGrep() {
@@ -90,12 +92,13 @@ async function getHashMap(hashs: string[], hashType: HashType) {
 
 /** 从内容查找 */
 function grepContent() {
-    return execCommand(`git log --oneline -S ${search}`)
+    console.log(`git log --oneline -S ${JSON.stringify(search)}`);
+    return execCommand(`git log --oneline -S ${JSON.stringify(search)}`)
 }
 
 /** 从标题查找 */
 function grepMessage() {
-    return execCommand(`git log --oneline --grep ${search}`)
+    return execCommand(`git log --oneline --grep ${JSON.stringify(search)}`)
 }
 
 if (search) {

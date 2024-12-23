@@ -13,21 +13,20 @@ const { search, length, type: searchType } = argv as any as {
 };
 
 
-
 const contentLength = Number.isNaN(length) ? 80 : length;
+
+const isSearchMessage = isAllType(searchType) || isMessageType(searchType)
+const isSearchContent = isAllType(searchType) || isContentType(searchType)
 
 async function handleGrep() {
     console.time('exec')
-    if (isAllType(searchType) || isMessageType(searchType)) {
-        const messageMatch = (await grepMessage()).trim();
-        console.log(`--commit-message--\n`, messageMatch);
-    }
-    if (isAllType(searchType) || isContentType(searchType)) {
-        const contentMatch = (await grepContent()).trim();
-        console.log(`\n--commit-content--\n`, contentMatch);
-    }
 
-    await grepLostFound();
+    await Promise.all([
+        grepLostFound(),
+        isSearchMessage && grepMessage(),
+        isSearchContent && grepContent()
+    ])
+
     console.timeEnd('exec')
 }
 
@@ -44,9 +43,10 @@ async function getLostFoundhashs() {
         commitHashs,
     }
 }
+
 /** 查找lost-found-hash */
 async function grepLostFound() {
-    const { blobHashs, commitHashs } = await getLostFoundhashs()
+    const { blobHashs, commitHashs } = await getLostFoundhashs();
 
     const [
         blobHashMap,
@@ -71,7 +71,7 @@ async function getHashMap(hashs: string[], hashType: HashType) {
     const showParametersMap = {
         [SearchType.All]: [],
         [SearchType.Message]: ['-s', '--format=%s'],
-        [SearchType.Content]: [],
+        [SearchType.Content]: ['--format=""'],
     }
 
     for (let i = 0; i * PIPE_CONCURRENCY < hashs.length; i++) {
@@ -90,15 +90,16 @@ async function getHashMap(hashs: string[], hashType: HashType) {
     return hashMap
 }
 
-/** 从内容查找 */
-function grepContent() {
-    console.log(`git log --oneline -S ${JSON.stringify(search)}`);
-    return execCommand(`git log --oneline -S ${JSON.stringify(search)}`)
+/** 从文件内容查找 */
+async function grepContent() {
+    const res = (await execCommand(`git log --all --oneline -S ${JSON.stringify(search)}`)).trim();
+    console.log(`\n--commit-content--\n`, res);
 }
 
-/** 从标题查找 */
-function grepMessage() {
-    return execCommand(`git log --oneline --grep ${JSON.stringify(search)}`)
+/** 从提交信息查找 */
+async function grepMessage() {
+    const res = (await execCommand(`git log --all --oneline --grep ${JSON.stringify(search)}`)).trim();
+    console.log(`\n--commit-message--\n`, res);
 }
 
 if (search) {

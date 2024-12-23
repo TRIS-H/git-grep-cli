@@ -11,8 +11,6 @@ It is more convenient and powerful than the native API provided by git, and can 
 
 From another point of view, `git-grep-cli` provides stronger "regret medicine" for git, which can help you quickly find lost files (provided that the lost files have been added to the git staging area).
 
-<!-- 将下面所有中文翻译成英文 -->
-
 ### Example: find a lost file
 
 You can follow these steps to execute it:
@@ -61,6 +59,8 @@ ggc -s "bye bye" -t content
 ggc -s "lost-git-commit" -t message
 ```
 
+You will get the git-hash of the lost git-commit record, and then you can use `git show <hash>` to view the content of this commit record. You can also use `git cherry-pick <hash>` to apply this commit record.
+
 ## Installing
 
 You need to install `git-grep-cli` globally.
@@ -87,7 +87,7 @@ pnpm add git-grep-cli -g
 
 ## Usage
 
-Then you can use it in your terminal:
+You can use it in your terminal:
 
 ```sh
 ggc -s <your-search-content> [-t <type>] [-l <length>]
@@ -108,6 +108,16 @@ ggc -s "hello world" -t message
 # or
 ggc -s "hello world" -t content -l 50
 ```
+
+## Features
+
+- Support searching for commit-message and file-content
+- Support searching for both commit-message and file-content
+- Support specifying the length of the returned content
+- Support searching for lost files (provided that the lost files have been added to the git staging area)
+- Support searching for lost git-commit records
+- Support searching for both lost files and lost git-commit records
+- Support searching for both lost files and lost git-commit records with specified length
 
 ## License
 

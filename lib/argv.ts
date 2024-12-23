@@ -22,7 +22,7 @@ export const argv = yargs(hideBin(process.argv))
         default: 80,
         describe: '返回匹配字符串的内容长度值',
         type: 'number',
-        'skipValidation': false
+        skipValidation: false
     })
     .usage('Usage: ggc -s <search-content> [-t <type>] [-l <length>]')
     .example('ggc -s "hello world"', '将查找所有内容更改或提交信息里包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')

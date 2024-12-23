@@ -112,12 +112,8 @@ ggc -s "hello world" -t content -l 50
 ## Features
 
 - Support searching for commit-message and file-content
-- Support searching for both commit-message and file-content
+- Support searching for lost files and lost git-commit records (provided that the lost files have been added to the git staging area)
 - Support specifying the length of the returned content
-- Support searching for lost files (provided that the lost files have been added to the git staging area)
-- Support searching for lost git-commit records
-- Support searching for both lost files and lost git-commit records
-- Support searching for both lost files and lost git-commit records with specified length
 
 ## License
 

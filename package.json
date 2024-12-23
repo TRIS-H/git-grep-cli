@@ -1,6 +1,6 @@
 {
 	"name": "git-grep-cli",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "A simple command line tool to search for commit-message or file-content in a git repository to retrieve the corresponding git hash.",
 	"packageManager": "pnpm@9.11.0",
 	"main": "./dist/index.mjs",

@@ -29,7 +29,7 @@ rm lost-file-1
 Now, `lost-file-1` is lost, and you want to find it back. You can use `git-grep-cli` to search for it:
 
 ```sh
-ggc -s "hello world" -t content
+ggc "hello world" -t content
 ```
 
 You will get the git-hash of `lost-file-1`, and then you can use `git show <hash>` to view the content of this file.
@@ -53,10 +53,10 @@ You can use `git-grep-cli` to find it back:
 
 ```sh
 # find the lost git-commit record by file content
-ggc -s "bye bye" -t content
+ggc "bye bye" -t content
 # or
 # find the lost git-commit record by commit message
-ggc -s "lost-git-commit" -t message
+ggc "lost-git-commit" -t message
 ```
 
 You will get the git-hash of the lost git-commit record, and then you can use `git show <hash>` to view the content of this commit record. You can also use `git cherry-pick <hash>` to apply this commit record.
@@ -102,6 +102,8 @@ ggc -s <your-search-content> [-t <type>] [-l <length>]
 ## Example
 
 ```sh
+ggc "hello world"
+# or
 ggc -s "hello world"
 # or
 ggc -s "hello world" -t message

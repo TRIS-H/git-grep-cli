@@ -3,11 +3,11 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { SearchType } from './config';
 
-export const argv = yargs(hideBin(process.argv))
+const yargsArgv = yargs(hideBin(process.argv))
     .option('s', {
         alias: 'search',
-        demand: true,
-        describe: '请输入你的查找内容',
+        demand: false,
+        describe: '请输入你的查找内容（-s可省略）',
         type: 'string',
     })
     .option('t', {
@@ -25,7 +25,8 @@ export const argv = yargs(hideBin(process.argv))
         skipValidation: false
     })
     .usage('Usage: ggc -s <search-content> [-t <type>] [-l <length>]')
-    .example('ggc -s "hello world"', '将查找所有内容更改或提交信息里包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
+    .example('ggc "hello world"', '将查找所有内容更改或提交信息里包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
+    .example('ggc -s "hello world"', '结果同上')
     .example('ggc -s "hello world" -t message', '将查找所有提交信息包含‘hello world’的git-hash，每条对象最多返回80个字符长度的内容')
     .example('ggc -s "hello world" -t content -l 50', '将查找所有内容更改包含‘hello world’的git-hash，每条对象最多返回50个字符长度的内容')
     .help('h')
@@ -38,16 +39,10 @@ export const argv = yargs(hideBin(process.argv))
         [x: string]: any;
     };
 
+const { _, search, type, length } = yargsArgv;
 
-
-
-
-
-
-
-
-
-
-
-
-
+export const argv = {
+    search: search ?? _[0] ?? '',
+    contentLength: Number.isNaN(length) ? 80 : length,
+    searchType: type,
+}

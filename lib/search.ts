@@ -5,13 +5,7 @@ import { argv } from './argv';
 
 const GREP = isWindows ? 'findstr' : 'grep';
 
-const { search, length, type: searchType } = argv as any as {
-    search: string;
-    length: number;
-    type: SearchType;
-    [x: string]: any;
-};
-
+const { search, length, type: searchType } = argv;
 
 const contentLength = Number.isNaN(length) ? 80 : length;
 

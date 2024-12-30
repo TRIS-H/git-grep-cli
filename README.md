@@ -9,7 +9,7 @@ It is more convenient and powerful than the native API provided by git, and can 
 
 ## "Regret Medicine" for git
 
-From another point of view, `git-grep-cli` provides stronger "regret medicine" for git, which can help you quickly find lost files (provided that the lost files have been added to the git staging area).
+From another point of view, `git-grep-cli` provides stronger "regret medicine" for git, which can help you quickly find lost files (provided that the lost files have been added to the git staging area; for unreachable objects, it must be the changes within two weeks, because the default value of `git gc --prune` is two weeks ago).
 
 ### Example: find a lost file
 

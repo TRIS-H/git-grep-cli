@@ -31,7 +31,12 @@ export const argv = yargs(hideBin(process.argv))
     .help('h')
     .alias('h', 'help')
     .epilog('copyright 2024')
-    .argv;
+    .argv as unknown as {
+        search: string;
+        length: number;
+        type: SearchType;
+        [x: string]: any;
+    };
 
 
 

@@ -49,8 +49,12 @@ async function grepLostFound() {
         getHashMap(commitHashs, HashType.Commit),
     ])
     console.log(`\n--lost-found--`)
-    blobHashMap && console.log(`\nblob-hash:\n`, blobHashMap);
-    console.log(`\ncommit-hash:\n`, commitHashMap);
+    if (blobHashMap) {
+        console.log(`\nblob-hash:\n`);
+        console.table(blobHashMap);
+    }
+    console.log(`\ncommit-hash:\n`);
+    console.table(commitHashMap);
 }
 
 /** 查找匹配的哈希内容对象 */
